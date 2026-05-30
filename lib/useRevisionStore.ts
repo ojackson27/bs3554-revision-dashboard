@@ -1,24 +1,24 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { TOPICS } from './data'
+import { TOPICS, TopicTasks, defaultTasks } from './data'
 
 export interface RevisionStore {
   completedSessions: number[]
-  confidenceScores: Record<string, number>
+  tasks: Record<string, TopicTasks>
   notes: Record<string, string>
 }
 
-const STORAGE_KEY = 'bs3554-revision-store'
+const STORAGE_KEY = 'bs3554-revision-store-v2'
 
 function getDefaultStore(): RevisionStore {
-  const defaultScores: Record<string, number> = {}
-  const defaultNotes: Record<string, string> = {}
+  const tasks: Record<string, TopicTasks> = {}
+  const notes: Record<string, string> = {}
   TOPICS.forEach((t) => {
-    defaultScores[t.id] = 3
-    defaultNotes[t.id] = ''
+    tasks[t.id] = defaultTasks()
+    notes[t.id] = ''
   })
-  return { completedSessions: [], confidenceScores: defaultScores, notes: defaultNotes }
+  return { completedSessions: [], tasks, notes }
 }
 
 function loadStore(): RevisionStore {
@@ -29,8 +29,8 @@ function loadStore(): RevisionStore {
     const parsed = JSON.parse(raw) as Partial<RevisionStore>
     const defaults = getDefaultStore()
     return {
-      completedSessions: parsed.completedSessions ?? defaults.completedSessions,
-      confidenceScores: { ...defaults.confidenceScores, ...(parsed.confidenceScores ?? {}) },
+      completedSessions: parsed.completedSessions ?? [],
+      tasks: { ...defaults.tasks, ...(parsed.tasks ?? {}) },
       notes: { ...defaults.notes, ...(parsed.notes ?? {}) },
     }
   } catch {
@@ -46,9 +46,7 @@ function saveStore(store: RevisionStore) {
 export function useRevisionStore() {
   const [store, setStore] = useState<RevisionStore>(getDefaultStore)
 
-  useEffect(() => {
-    setStore(loadStore())
-  }, [])
+  useEffect(() => { setStore(loadStore()) }, [])
 
   const updateStore = useCallback((updater: (prev: RevisionStore) => RevisionStore) => {
     setStore((prev) => {
@@ -67,18 +65,15 @@ export function useRevisionStore() {
     }))
   }, [updateStore])
 
-  const setConfidence = useCallback((topicId: string, score: number) => {
+  const setTask = useCallback((topicId: string, patch: Partial<TopicTasks>) => {
     updateStore((prev) => ({
       ...prev,
-      confidenceScores: { ...prev.confidenceScores, [topicId]: score },
+      tasks: { ...prev.tasks, [topicId]: { ...prev.tasks[topicId], ...patch } },
     }))
   }, [updateStore])
 
   const setNote = useCallback((topicId: string, text: string) => {
-    updateStore((prev) => ({
-      ...prev,
-      notes: { ...prev.notes, [topicId]: text },
-    }))
+    updateStore((prev) => ({ ...prev, notes: { ...prev.notes, [topicId]: text } }))
   }, [updateStore])
 
   const resetAll = useCallback(() => {
@@ -87,5 +82,5 @@ export function useRevisionStore() {
     setStore(defaults)
   }, [])
 
-  return { store, toggleSession, setConfidence, setNote, resetAll }
+  return { store, toggleSession, setTask, setNote, resetAll }
 }
