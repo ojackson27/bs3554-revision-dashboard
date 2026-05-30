@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #080e1d;
+  --background: #100820;
   --foreground: #f8fafc;
 }
 
@@ -14,11 +14,10 @@ body {
 }
 
 input[type='range'] {
-  accent-color: #f59e0b;
+  accent-color: #c084fc;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
