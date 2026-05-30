@@ -7,6 +7,17 @@ export interface Session {
   topics: string[]
 }
 
+export interface TopicTasks {
+  lectureSlides: boolean
+  tutorialQuestions: number  // 0–4
+  timedQuestion: boolean
+  discussionPlan: boolean
+}
+
+export function defaultTasks(): TopicTasks {
+  return { lectureSlides: false, tutorialQuestions: 0, timedQuestion: false, discussionPlan: false }
+}
+
 export interface Topic {
   id: string
   name: string
