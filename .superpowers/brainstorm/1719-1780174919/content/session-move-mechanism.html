@@ -1,0 +1,129 @@
+<h2>How should sessions move between days?</h2>
+<p class="subtitle">You want sessions to be rearrangeable across days. Which interaction feels most natural?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#100820;padding:10px;border-radius:6px;font-family:sans-serif;">
+      <!-- Drag handle mockup -->
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:8px;padding:8px;margin-bottom:6px;display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;flex-direction:column;gap:2px;cursor:grab;padding:2px;">
+          <div style="width:14px;height:2px;background:#5b21b6;border-radius:1px;"></div>
+          <div style="width:14px;height:2px;background:#5b21b6;border-radius:1px;"></div>
+          <div style="width:14px;height:2px;background:#5b21b6;border-radius:1px;"></div>
+        </div>
+        <div style="flex:1;">
+          <div style="color:#f8fafc;font-size:10px;font-weight:600;">Session 1: Refresh Lectures 1 & 2</div>
+          <div style="color:#94a3b8;font-size:8px;">Morning · Derivatives, Forwards/Futures</div>
+        </div>
+      </div>
+      <!-- Dragging state -->
+      <div style="background:#7c3aed22;border:2px dashed #7c3aed;border-radius:8px;padding:8px;margin-bottom:6px;display:flex;align-items:center;gap:8px;opacity:0.7;">
+        <div style="display:flex;flex-direction:column;gap:2px;padding:2px;">
+          <div style="width:14px;height:2px;background:#7c3aed;border-radius:1px;"></div>
+          <div style="width:14px;height:2px;background:#7c3aed;border-radius:1px;"></div>
+          <div style="width:14px;height:2px;background:#7c3aed;border-radius:1px;"></div>
+        </div>
+        <div style="flex:1;">
+          <div style="color:#c084fc;font-size:10px;font-weight:600;">Session 4: Capital Structure ← dragging</div>
+          <div style="color:#94a3b8;font-size:8px;">Moving to Day 1...</div>
+        </div>
+      </div>
+      <!-- Drop zone -->
+      <div style="border:2px dashed #22c55e44;border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#22c55e;font-size:9px;">Drop here →</div>
+      </div>
+      <div style="color:#64748b;font-size:8px;text-align:center;margin-top:6px;">Drag the ≡ handle to reorder</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Drag & drop handles</h3>
+      <p>Each session card has a ≡ grip handle. Drag to reorder within a day or across days. Most intuitive but requires a drag library (dnd-kit).</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#100820;padding:10px;border-radius:6px;font-family:sans-serif;">
+      <!-- Move button mockup -->
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:8px;padding:8px;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+          <div>
+            <div style="color:#f8fafc;font-size:10px;font-weight:600;">Session 2: Options Deep Dive</div>
+            <div style="color:#94a3b8;font-size:8px;">Afternoon</div>
+          </div>
+          <div style="display:flex;gap:3px;">
+            <button style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:3px 6px;font-size:9px;cursor:pointer;">↑</button>
+            <button style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:3px 6px;font-size:9px;cursor:pointer;">↓</button>
+          </div>
+        </div>
+        <!-- Move to day dropdown -->
+        <div style="display:flex;align-items:center;gap:4px;">
+          <span style="color:#64748b;font-size:8px;">Move to:</span>
+          <div style="display:flex;gap:3px;">
+            <div style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:2px 6px;font-size:8px;">Day 1</div>
+            <div style="background:#7c3aed;color:white;border-radius:4px;padding:2px 6px;font-size:8px;font-weight:600;">Day 2</div>
+            <div style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:2px 6px;font-size:8px;">Day 3</div>
+            <div style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:2px 6px;font-size:8px;">Day 4</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:8px;padding:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="color:#f8fafc;font-size:10px;font-weight:600;">Session 3: Capital Imperfections</div>
+            <div style="color:#94a3b8;font-size:8px;">Evening</div>
+          </div>
+          <div style="display:flex;gap:3px;">
+            <button style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:3px 6px;font-size:9px;">↑</button>
+            <button style="background:#100820;border:1px solid #3b1f7a;color:#94a3b8;border-radius:4px;padding:3px 6px;font-size:9px;">↓</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Move buttons + day selector</h3>
+      <p>↑↓ arrows to reorder within a day. Day 1/2/3/4 buttons to shift a session to another day. Simple, no extra library needed.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#100820;padding:10px;border-radius:6px;font-family:sans-serif;">
+      <!-- Click to move with modal -->
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:8px;padding:8px;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="color:#f8fafc;font-size:10px;font-weight:600;">Session 1: Refresh Lectures</div>
+            <div style="color:#94a3b8;font-size:8px;">Morning · Day 1</div>
+          </div>
+          <button style="background:#1c0f3a;border:1px solid #5b21b6;color:#c084fc;border-radius:4px;padding:3px 8px;font-size:8px;font-weight:600;">Move</button>
+        </div>
+      </div>
+      <!-- Move modal overlay -->
+      <div style="background:#1c0f3a;border:1px solid #7c3aed;border-radius:10px;padding:10px;">
+        <div style="color:#c084fc;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Move Session 1 to...</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <div style="background:#7c3aed22;border:1px solid #7c3aed;border-radius:6px;padding:6px;text-align:center;">
+            <div style="color:#c084fc;font-size:9px;font-weight:700;">Day 1</div>
+            <div style="color:#64748b;font-size:7px;">Current</div>
+          </div>
+          <div style="background:#100820;border:1px solid #3b1f7a;border-radius:6px;padding:6px;text-align:center;cursor:pointer;">
+            <div style="color:#f8fafc;font-size:9px;font-weight:700;">Day 2</div>
+            <div style="color:#64748b;font-size:7px;">Mon · 3 sessions</div>
+          </div>
+          <div style="background:#100820;border:1px solid #3b1f7a;border-radius:6px;padding:6px;text-align:center;cursor:pointer;">
+            <div style="color:#f8fafc;font-size:9px;font-weight:700;">Day 3</div>
+            <div style="color:#64748b;font-size:7px;">Tue · 3 sessions</div>
+          </div>
+          <div style="background:#100820;border:1px solid #3b1f7a;border-radius:6px;padding:6px;text-align:center;cursor:pointer;">
+            <div style="color:#f8fafc;font-size:9px;font-weight:700;">Day 4</div>
+            <div style="color:#64748b;font-size:7px;">Wed · 3 sessions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — "Move" button with day picker</h3>
+      <p>Each session has a Move button. Clicking opens a compact day-picker overlay. Clean, no drag library, works well on mobile too.</p>
+    </div>
+  </div>
+
+</div>

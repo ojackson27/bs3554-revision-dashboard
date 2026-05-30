@@ -1,0 +1,126 @@
+<h2>How should daily tutorial questions appear?</h2>
+<p class="subtitle">You want tutorial questions tracked every day — not just per topic. Where and how?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#100820;padding:10px;border-radius:6px;font-family:sans-serif;">
+      <!-- Day header with built-in tutorial Q tracker -->
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:10px;overflow:hidden;margin-bottom:6px;">
+        <div style="background:#100820;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="color:#f8fafc;font-size:10px;font-weight:700;">Day 1 — Sunday</div>
+            <div style="color:#94a3b8;font-size:8px;">2/3 sessions done</div>
+          </div>
+          <!-- Tutorial Q counter in header -->
+          <div style="display:flex;align-items:center;gap:6px;background:#1c0f3a;border:1px solid #5b21b6;border-radius:6px;padding:4px 8px;">
+            <div style="color:#c084fc;font-size:8px;font-weight:600;">Tutorial Qs</div>
+            <div style="display:flex;align-items:center;gap:3px;">
+              <button style="width:16px;height:16px;background:#100820;border:1px solid #3b1f7a;border-radius:3px;color:#94a3b8;font-size:10px;display:flex;align-items:center;justify-content:center;">−</button>
+              <span style="color:#c084fc;font-weight:800;font-size:12px;min-width:14px;text-align:center;">3</span>
+              <button style="width:16px;height:16px;background:linear-gradient(135deg,#7c3aed,#db2877);border:none;border-radius:3px;color:white;font-size:10px;display:flex;align-items:center;justify-content:center;">+</button>
+            </div>
+          </div>
+        </div>
+        <div style="padding:8px;display:flex;flex-direction:column;gap:4px;">
+          <div style="display:flex;align-items:center;gap:6px;padding:5px;background:#100820;border-radius:5px;">
+            <div style="width:12px;height:12px;background:#22c55e;border-radius:2px;display:flex;align-items:center;justify-content:center;">
+              <div style="width:6px;height:4px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg);margin-top:-1px;"></div>
+            </div>
+            <div style="color:#64748b;font-size:9px;text-decoration:line-through;">Session 1: Refresh Lectures 1 & 2</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;padding:5px;">
+            <div style="width:12px;height:12px;border:1px solid #5b21b6;border-radius:2px;"></div>
+            <div style="color:#f8fafc;font-size:9px;">Session 2: Options Deep Dive</div>
+          </div>
+        </div>
+      </div>
+      <div style="color:#64748b;font-size:8px;text-align:center;">Counter lives in each day card header</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Counter in day header</h3>
+      <p>Each day card gets a +/− tutorial question counter in its header. Stored per day. Separate from topic-level tracking in Confidence tab.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#100820;padding:10px;border-radius:6px;font-family:sans-serif;">
+      <!-- Sticky daily goal bar -->
+      <div style="background:linear-gradient(135deg,#7c3aed22,#db287722);border:1px solid #7c3aed44;border-radius:8px;padding:8px 12px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="color:#c084fc;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Today's Tutorial Goal</div>
+          <div style="color:#f8fafc;font-size:11px;font-weight:700;margin-top:1px;">3 questions done <span style="color:#64748b;font-weight:400;font-size:9px;">/ aim for 4+</span></div>
+        </div>
+        <div style="display:flex;gap:3px;">
+          <button style="width:22px;height:22px;background:#100820;border:1px solid #3b1f7a;border-radius:4px;color:#94a3b8;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+          <button style="width:22px;height:22px;background:linear-gradient(135deg,#7c3aed,#db2877);border:none;border-radius:4px;color:white;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+        </div>
+      </div>
+      <!-- Progress dots -->
+      <div style="display:flex;gap:3px;justify-content:center;margin-bottom:8px;">
+        <div style="width:20px;height:6px;background:#22c55e;border-radius:3px;"></div>
+        <div style="width:20px;height:6px;background:#22c55e;border-radius:3px;"></div>
+        <div style="width:20px;height:6px;background:#22c55e;border-radius:3px;"></div>
+        <div style="width:20px;height:6px;background:#3b1f7a;border-radius:3px;"></div>
+        <div style="width:20px;height:6px;background:#3b1f7a;border-radius:3px;"></div>
+      </div>
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:8px;padding:6px 10px;">
+        <div style="display:flex;align-items:center;gap:6px;padding:4px;">
+          <div style="width:12px;height:12px;border:1px solid #5b21b6;border-radius:2px;"></div>
+          <div style="color:#f8fafc;font-size:9px;">Session 2: Options Deep Dive</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — "Today's Tutorial Goal" banner</h3>
+      <p>A prominent banner at the top of the Home tab showing today's tutorial question count with a daily target (e.g. aim for 4). Progress dots show goal vs done.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#100820;padding:10px;border-radius:6px;font-family:sans-serif;">
+      <!-- Tutorial Qs baked into each session card -->
+      <div style="background:#1c0f3a;border:1px solid #3b1f7a;border-radius:10px;overflow:hidden;">
+        <div style="background:#100820;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="color:#f8fafc;font-size:10px;font-weight:700;">Day 1 — Sunday</div>
+          <div style="color:#94a3b8;font-size:8px;">1/3 sessions</div>
+        </div>
+        <div style="padding:6px;display:flex;flex-direction:column;gap:3px;">
+          <!-- Session with inline tutorial Q tracker -->
+          <div style="background:#100820;border-radius:6px;padding:7px 8px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <div style="width:12px;height:12px;border:1px solid #5b21b6;border-radius:2px;flex-shrink:0;"></div>
+              <div style="color:#f8fafc;font-size:9px;font-weight:600;flex:1;">Session 2: Options Deep Dive</div>
+            </div>
+            <!-- Inline tutorial Q row -->
+            <div style="display:flex;align-items:center;gap:4px;padding-left:18px;">
+              <div style="color:#c084fc;font-size:7px;">Tutorial Qs:</div>
+              <div style="display:flex;gap:2px;">
+                <div style="width:14px;height:14px;background:#22c55e;border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                  <div style="color:white;font-size:8px;font-weight:700;">✓</div>
+                </div>
+                <div style="width:14px;height:14px;background:#22c55e;border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                  <div style="color:white;font-size:8px;font-weight:700;">✓</div>
+                </div>
+                <div style="width:14px;height:14px;background:#3b1f7a;border-radius:2px;cursor:pointer;"></div>
+                <div style="width:14px;height:14px;background:#3b1f7a;border-radius:2px;cursor:pointer;"></div>
+              </div>
+              <div style="color:#64748b;font-size:7px;">2/4</div>
+            </div>
+          </div>
+          <div style="background:#100820;border-radius:6px;padding:7px 8px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:12px;height:12px;border:1px solid #5b21b6;border-radius:2px;flex-shrink:0;"></div>
+              <div style="color:#f8fafc;font-size:9px;font-weight:600;flex:1;">Session 3: Capital Imperfections</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tutorial Qs inside each session card</h3>
+      <p>Each session card has its own 4-dot tutorial question tracker inline. Tapping a dot marks a question done for that session. Totals roll up per day.</p>
+    </div>
+  </div>
+
+</div>

@@ -1,24 +1,35 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { TOPICS, TopicTasks, defaultTasks } from './data'
+import { TOPICS, SESSIONS, TopicTasks, defaultTasks } from './data'
 
 export interface RevisionStore {
   completedSessions: number[]
   tasks: Record<string, TopicTasks>
   notes: Record<string, string>
+  sessionDayAssignments: Record<number, 1 | 2 | 3 | 4>
+  dailyTutorialQuestions: Record<number, number>
 }
 
 const STORAGE_KEY = 'bs3554-revision-store-v2'
 
+function defaultDayAssignments(): Record<number, 1 | 2 | 3 | 4> {
+  const result: Record<number, 1 | 2 | 3 | 4> = {}
+  SESSIONS.forEach((s) => { result[s.id] = s.day })
+  return result
+}
+
 function getDefaultStore(): RevisionStore {
   const tasks: Record<string, TopicTasks> = {}
   const notes: Record<string, string> = {}
-  TOPICS.forEach((t) => {
-    tasks[t.id] = defaultTasks()
-    notes[t.id] = ''
-  })
-  return { completedSessions: [], tasks, notes }
+  TOPICS.forEach((t) => { tasks[t.id] = defaultTasks(); notes[t.id] = '' })
+  return {
+    completedSessions: [],
+    tasks,
+    notes,
+    sessionDayAssignments: defaultDayAssignments(),
+    dailyTutorialQuestions: { 1: 0, 2: 0, 3: 0, 4: 0 },
+  }
 }
 
 function loadStore(): RevisionStore {
@@ -32,6 +43,8 @@ function loadStore(): RevisionStore {
       completedSessions: parsed.completedSessions ?? [],
       tasks: { ...defaults.tasks, ...(parsed.tasks ?? {}) },
       notes: { ...defaults.notes, ...(parsed.notes ?? {}) },
+      sessionDayAssignments: { ...defaults.sessionDayAssignments, ...(parsed.sessionDayAssignments ?? {}) },
+      dailyTutorialQuestions: { ...defaults.dailyTutorialQuestions, ...(parsed.dailyTutorialQuestions ?? {}) },
     }
   } catch {
     return getDefaultStore()
@@ -76,11 +89,29 @@ export function useRevisionStore() {
     updateStore((prev) => ({ ...prev, notes: { ...prev.notes, [topicId]: text } }))
   }, [updateStore])
 
+  const setSessionDay = useCallback((sessionId: number, day: 1 | 2 | 3 | 4) => {
+    updateStore((prev) => ({
+      ...prev,
+      sessionDayAssignments: { ...prev.sessionDayAssignments, [sessionId]: day },
+    }))
+  }, [updateStore])
+
+  const resetSessionDays = useCallback(() => {
+    updateStore((prev) => ({ ...prev, sessionDayAssignments: defaultDayAssignments() }))
+  }, [updateStore])
+
+  const setDailyTutorialQs = useCallback((day: number, count: number) => {
+    updateStore((prev) => ({
+      ...prev,
+      dailyTutorialQuestions: { ...prev.dailyTutorialQuestions, [day]: Math.max(0, count) },
+    }))
+  }, [updateStore])
+
   const resetAll = useCallback(() => {
     const defaults = getDefaultStore()
     saveStore(defaults)
     setStore(defaults)
   }, [])
 
-  return { store, toggleSession, setTask, setNote, resetAll }
+  return { store, toggleSession, setTask, setNote, setSessionDay, resetSessionDays, setDailyTutorialQs, resetAll }
 }
