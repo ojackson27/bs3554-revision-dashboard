@@ -1,5 +1,6 @@
 'use client'
 
+import { CheckSquare, Square, Sunrise, Sun, Moon } from 'lucide-react'
 import { SESSIONS, DAY_LABELS } from '@/lib/data'
 
 interface DayPlanProps {
@@ -7,10 +8,10 @@ interface DayPlanProps {
   onToggle: (id: number) => void
 }
 
-const TIME_ICONS: Record<string, string> = {
-  Morning: '🌅',
-  Afternoon: '☀️',
-  Evening: '🌙',
+const TIME_ICONS = {
+  Morning: Sunrise,
+  Afternoon: Sun,
+  Evening: Moon,
 }
 
 export default function DayPlan({ completedSessions, onToggle }: DayPlanProps) {
@@ -19,61 +20,60 @@ export default function DayPlan({ completedSessions, onToggle }: DayPlanProps) {
   return (
     <section>
       <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-        <span className="text-amber-400">📅</span> 4-Day Revision Plan
+        <span
+          className="w-5 h-5 rounded shrink-0"
+          style={{ background: 'linear-gradient(135deg,#7c3aed,#db2877)' }}
+        />
+        4-Day Revision Plan
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {days.map((day) => {
           const sessions = SESSIONS.filter((s) => s.day === day)
-          const dayCompleted = sessions.filter((s) => completedSessions.includes(s.id)).length
-
+          const dayDone = sessions.filter((s) => completedSessions.includes(s.id)).length
           return (
-            <div key={day} className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
-              <div className="bg-slate-700/50 px-4 py-3 flex items-center justify-between">
+            <div key={day} className="bg-[#1c0f3a] border border-[#3b1f7a] rounded-xl overflow-hidden">
+              <div className="bg-[#100820] px-4 py-3 flex items-center justify-between">
                 <h3 className="font-semibold text-white text-sm">{DAY_LABELS[day]}</h3>
-                <span className="text-xs text-slate-400">{dayCompleted}/{sessions.length} done</span>
+                <span className="text-xs text-[#94a3b8]">{dayDone}/{sessions.length}</span>
               </div>
-              <div className="divide-y divide-slate-700/50">
+              <div className="divide-y divide-[#3b1f7a]/50">
                 {sessions.map((session) => {
                   const done = completedSessions.includes(session.id)
+                  const TimeIcon = TIME_ICONS[session.timeOfDay]
                   return (
                     <div
                       key={session.id}
-                      className={`px-4 py-3 transition-colors ${done ? 'bg-emerald-950/20' : 'hover:bg-slate-700/30'}`}
+                      className={`px-4 py-3 transition-colors ${done ? 'bg-[#22c55e]/5' : 'hover:bg-[#5b21b6]/10'}`}
                     >
                       <div className="flex items-start gap-3">
                         <button
                           onClick={() => onToggle(session.id)}
-                          className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
-                            done
-                              ? 'bg-emerald-500 border-emerald-500 text-white'
-                              : 'border-slate-500 hover:border-amber-400'
-                          }`}
+                          className="mt-0.5 shrink-0 cursor-pointer"
                         >
-                          {done && (
-                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
+                          {done
+                            ? <CheckSquare size={18} className="text-[#22c55e]" />
+                            : <Square size={18} className="text-[#5b21b6] hover:text-[#c084fc]" />
+                          }
                         </button>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-xs">{TIME_ICONS[session.timeOfDay]}</span>
-                            <span className="text-slate-400 text-xs">{session.timeOfDay}</span>
-                            <span className="text-slate-600 text-xs">·</span>
-                            <span className="text-slate-500 text-xs">S{session.id}</span>
+                            <TimeIcon size={11} className="text-[#94a3b8]" />
+                            <span className="text-[#94a3b8] text-xs">{session.timeOfDay}</span>
+                            <span className="text-[#3b1f7a] text-xs">·</span>
+                            <span className="text-[#3b1f7a] text-xs">S{session.id}</span>
                           </div>
-                          <p className={`text-sm font-medium leading-snug ${done ? 'line-through text-slate-500' : 'text-slate-200'}`}>
+                          <p className={`text-sm font-medium leading-snug ${done ? 'line-through text-[#5b21b6]' : 'text-[#f8fafc]'}`}>
                             {session.title}
                           </p>
                           {!done && (
-                            <p className="text-slate-500 text-xs mt-1 leading-relaxed">{session.description}</p>
+                            <p className="text-[#94a3b8] text-xs mt-1 leading-relaxed">{session.description}</p>
                           )}
                           <div className="flex flex-wrap gap-1 mt-1.5">
                             {session.topics.map((t) => (
                               <span
                                 key={t}
                                 className={`text-xs px-1.5 py-0.5 rounded ${
-                                  done ? 'bg-slate-700/50 text-slate-600' : 'bg-slate-700 text-slate-400'
+                                  done ? 'bg-[#100820] text-[#3b1f7a]' : 'bg-[#100820] text-[#94a3b8] border border-[#3b1f7a]'
                                 }`}
                               >
                                 {t}
