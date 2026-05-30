@@ -2,6 +2,7 @@
 
 import { CheckCircle2, Lightbulb, Tag } from 'lucide-react'
 import { SESSIONS, Session } from '@/lib/data'
+import SessionTimer from './SessionTimer'
 
 interface CurrentFocusProps {
   completedSessions: number[]
@@ -78,6 +79,10 @@ export default function CurrentFocus({ completedSessions, onToggle }: CurrentFoc
             {t}
           </span>
         ))}
+      </div>
+
+      <div className="mb-5">
+        <SessionTimer />
       </div>
 
       <button

@@ -1,8 +1,10 @@
 'use client'
 
-import { BookOpen, PenLine, Timer, ClipboardList, Plus, Minus } from 'lucide-react'
+import { useState } from 'react'
+import { BookOpen, PenLine, Timer, ClipboardList, Plus, Minus, ChevronDown, Eye, EyeOff } from 'lucide-react'
 import { Topic, TopicTasks } from '@/lib/data'
 import { topicScore, scoreColour } from '@/lib/scoring'
+import { RECALL_QUESTIONS } from '@/lib/recallQuestions'
 
 interface TopicCardProps {
   topic: Topic
@@ -13,6 +15,17 @@ interface TopicCardProps {
 export default function TopicCard({ topic, tasks, onSetTask }: TopicCardProps) {
   const score = topicScore(tasks)
   const colour = scoreColour(score)
+  const [recallOpen, setRecallOpen] = useState(false)
+  const [revealedAnswers, setRevealedAnswers] = useState<Set<number>>(new Set())
+  const questions = RECALL_QUESTIONS[topic.id] ?? []
+
+  const toggleAnswer = (i: number) => {
+    setRevealedAnswers((prev) => {
+      const next = new Set(prev)
+      if (next.has(i)) { next.delete(i) } else { next.add(i) }
+      return next
+    })
+  }
   const isWeak = score < 40
 
   return (
@@ -96,6 +109,47 @@ export default function TopicCard({ topic, tasks, onSetTask }: TopicCardProps) {
           </span>
           <span className="text-xs text-[#5b21b6]">15 pts</span>
         </label>
+
+        {questions.length > 0 && (
+          <div className="mt-1 border-t border-[#3b1f7a]/50 pt-3">
+            <button
+              onClick={() => { setRecallOpen((o) => !o); setRevealedAnswers(new Set()) }}
+              className="flex items-center justify-between w-full cursor-pointer group"
+            >
+              <span className="text-xs font-semibold text-[#c084fc] uppercase tracking-wide group-hover:text-white transition-colors">
+                Test Yourself ({questions.length} questions)
+              </span>
+              <ChevronDown size={14} className={`text-[#5b21b6] transition-transform ${recallOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {recallOpen && (
+              <div className="mt-3 space-y-3">
+                {questions.map((q, i) => (
+                  <div key={i} className="bg-[#100820] rounded-lg border border-[#3b1f7a]/50 overflow-hidden">
+                    <div className="px-3 py-2.5">
+                      <p className="text-white text-xs font-semibold leading-relaxed">{q.question}</p>
+                    </div>
+                    {revealedAnswers.has(i) ? (
+                      <div className="border-t border-[#3b1f7a]/50 px-3 py-2.5" style={{ background: 'linear-gradient(135deg, #7c3aed0a, #db28770a)' }}>
+                        <p className="text-[#94a3b8] text-xs leading-relaxed">{q.answer}</p>
+                        <button onClick={() => toggleAnswer(i)} className="flex items-center gap-1 mt-2 text-[#5b21b6] hover:text-[#c084fc] text-xs cursor-pointer transition-colors">
+                          <EyeOff size={10} /> Hide
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => toggleAnswer(i)}
+                        className="flex items-center gap-1.5 px-3 py-2 text-xs text-[#5b21b6] hover:text-[#c084fc] transition-colors cursor-pointer border-t border-[#3b1f7a]/50 w-full"
+                      >
+                        <Eye size={10} /> Reveal answer
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

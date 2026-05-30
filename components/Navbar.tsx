@@ -1,8 +1,8 @@
 'use client'
 
-import { Home, BarChart2, FileText, Target } from 'lucide-react'
+import { Home, BarChart2, FileText, Target, BookOpen } from 'lucide-react'
 
-export type Tab = 'home' | 'confidence' | 'notes' | 'strategy'
+export type Tab = 'home' | 'confidence' | 'notes' | 'strategy' | 'formulas'
 
 interface NavbarProps {
   active: Tab
@@ -14,6 +14,7 @@ const TABS: { id: Tab; label: string; Icon: React.ElementType }[] = [
   { id: 'confidence', label: 'Confidence', Icon: BarChart2 },
   { id: 'notes', label: 'Notes', Icon: FileText },
   { id: 'strategy', label: 'Strategy', Icon: Target },
+  { id: 'formulas', label: 'Formulas', Icon: BookOpen },
 ]
 
 export default function Navbar({ active, onChange }: NavbarProps) {

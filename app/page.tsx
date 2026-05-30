@@ -11,6 +11,7 @@ import TutorialGoalBanner from '@/components/TutorialGoalBanner'
 import ConfidenceTab from '@/components/ConfidenceTab'
 import ExamStrategy from '@/components/ExamStrategy'
 import QuickNotes from '@/components/QuickNotes'
+import FormulasTab from '@/components/FormulasTab'
 
 function getCurrentDay(completedSessions: number[], sessionDayAssignments: Record<number, 1 | 2 | 3 | 4>): 1 | 2 | 3 | 4 {
   const next = SESSIONS.find((s) => !completedSessions.includes(s.id))
@@ -55,6 +56,9 @@ export default function Home() {
         )}
         {activeTab === 'strategy' && (
           <ExamStrategy tasks={store.tasks} />
+        )}
+        {activeTab === 'formulas' && (
+          <FormulasTab />
         )}
       </main>
     </div>
